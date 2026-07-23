@@ -4,68 +4,178 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>第1506回 例会次第</title>
+<title>第1506回例会次第 ｜ 旭川平和ライオンズクラブ</title>
 <style>
+  :root{
+    --ink:#111;
+    --sub:#333;
+    --paper:#fff;
+  }
   *{box-sizing:border-box;}
-  html,body{margin:0;height:100%;}
-  body{font-family:"Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-    background:linear-gradient(135deg,#5c1a72,#42115a);color:#241a2b;}
-  .gate{min-height:100%;display:flex;align-items:center;justify-content:center;padding:24px;}
-  .card{background:#fff;border-radius:18px;box-shadow:0 12px 40px rgba(0,0,0,.28);
-    padding:36px 34px;max-width:400px;width:100%;text-align:center;}
-  .crest{width:52px;height:52px;border-radius:50%;background:#e6b400;color:#42115a;
-    font-weight:800;font-size:22px;line-height:52px;margin:0 auto 14px;}
-  h1{font-size:18px;margin:0 0 4px;color:#42115a;}
-  .sub{font-size:13px;color:#6b6472;margin:0 0 22px;}
-  input{width:100%;padding:13px 15px;border:1px solid #d8cfe0;border-radius:11px;
-    font-size:16px;font-family:inherit;text-align:center;letter-spacing:.05em;}
-  input:focus{outline:none;border-color:#5c1a72;box-shadow:0 0 0 3px #f3ecf7;}
-  button{margin-top:14px;width:100%;padding:13px;border:0;border-radius:11px;cursor:pointer;
-    background:#5c1a72;color:#fff;font-size:15px;font-weight:700;font-family:inherit;}
-  button:hover{background:#42115a;}
-  .err{color:#c0392b;font-size:13px;font-weight:700;margin-top:12px;min-height:18px;}
-  .note{font-size:11.5px;color:#9a92a3;margin-top:16px;line-height:1.6;}
-  iframe{position:fixed;inset:0;width:100%;height:100%;border:0;background:#fff;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:#e9e9ee;
+    font-family:"Hiragino Kaku Gothic ProN","Hiragino Sans","BIZ UDPGothic","Yu Gothic","Meiryo",sans-serif;
+    color:var(--ink);
+    line-height:1.75;
+    padding:24px 12px;
+    -webkit-font-smoothing:antialiased;
+  }
+  .sheet{
+    max-width:820px;margin:0 auto;background:var(--paper);
+    padding:52px 60px 64px;
+    box-shadow:0 2px 18px rgba(0,0,0,.14);
+  }
+
+  /* ---- header ---- */
+  .club{text-align:center;font-size:16px;font-weight:600;letter-spacing:.04em;}
+  .title{text-align:center;font-size:30px;font-weight:800;letter-spacing:.04em;margin:2px 0 8px;}
+  .title .no{font-weight:800;}
+  .meta{text-align:center;font-size:14.5px;font-weight:600;}
+  .chair{text-align:right;font-size:14.5px;margin-top:26px;}
+  .b{font-weight:700;}
+
+  /* ---- agenda rows ---- */
+  .body{margin-top:30px;font-size:15px;}
+  .row{
+    display:flex;justify-content:space-between;align-items:baseline;
+    gap:16px;padding:1px 0;
+  }
+  .row .it{flex:1;}
+  .row .who{flex:0 0 auto;text-align:right;white-space:nowrap;}
+  .who .role{font-weight:700;}
+  .who .l{font-weight:700;}
+
+  /* numbered sub-blocks (1)(2)... */
+  .sub{margin:2px 0 4px;padding-left:2.2em;}
+  .sub .head{display:flex;gap:.5em;}
+  .sub .num{font-weight:700;flex:0 0 auto;}
+  .sub .detail{padding-left:1.7em;color:var(--sub);font-size:14px;}
+  .sub .detail .note{}
+
+  /* circled-number sections ①②... */
+  .section{margin-top:4px;}
+  .marus{padding-left:2.2em;}
+  .maru-row{
+    display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:1px 0;
+  }
+  .maru-row .it{flex:1;}
+  .maru-row .who{flex:0 0 auto;text-align:right;white-space:nowrap;}
+
+  .plain{padding:1px 0;}       /* items without a person on the right */
+
+  /* toolbar (screen only) */
+  .toolbar{max-width:820px;margin:0 auto 12px;text-align:right;}
+  .toolbar button{
+    font-family:inherit;font-size:13px;font-weight:700;color:#5c1a72;
+    background:#fff;border:1px solid #d8cfe0;border-radius:8px;padding:7px 14px;cursor:pointer;
+  }
+  .toolbar button:hover{background:#f3ecf7;}
+
+  @media print{
+    body{background:#fff;padding:0;}
+    .sheet{box-shadow:none;max-width:none;padding:14mm 16mm;}
+    .toolbar{display:none;}
+    @page{size:A4;margin:12mm;}
+  }
+  @media (max-width:560px){
+    .sheet{padding:30px 20px 40px;}
+    .title{font-size:23px;}
+    .row,.maru-row{flex-wrap:wrap;}
+    .row .who,.maru-row .who{flex-basis:100%;text-align:right;}
+  }
 </style>
 </head>
 <body>
-  <div class="gate" id="gate">
-    <form class="card" id="form">
-      <div class="crest">LC</div>
-      <h1>旭川平和ライオンズクラブ</h1>
-      <p class="sub">第1506回 例会次第</p>
-      <input id="pw" type="password" placeholder="合言葉を入力" autocomplete="off" autofocus>
-      <button type="submit">開く</button>
-      <div class="err" id="err"></div>
-      <p class="note">この資料は暗号化されています。合言葉をご存じの方のみ閲覧できます。</p>
-    </form>
+
+<div class="toolbar">
+  <button onclick="window.print()">🖨 印刷 / PDF保存</button>
+</div>
+
+<div class="sheet">
+
+  <div class="club">旭川平和ライオンズクラブ</div>
+  <div class="title">第<span class="no">1506</span>回例会次第</div>
+  <div class="meta">日時：令和8年7月21日（火）　/　場所：ホテルクレッセント旭川</div>
+  <div class="chair">司会：次期L.T.　<span class="l b">L.</span>田中　秀道</div>
+
+  <div class="body">
+
+    <div class="row"><span class="it">開会のことば並びに開会のゴング</span><span class="who"><span class="role">会長</span>　<span class="l">L.</span>中島　張</span></div>
+
+    <div class="plain">国歌並びにライオンズクラブの歌斉唱</div>
+
+    <div class="row"><span class="it">ライオンズの誓い</span><span class="who"><span class="l">L.</span>高橋　聡</span></div>
+
+    <div class="row"><span class="it">幹事報告</span><span class="who"><span class="role">幹事</span>　<span class="l">L.</span>上田　桂輔</span></div>
+
+    <div class="sub">
+      <div class="head"><span class="num">(1)</span><span>ガバナー公式訪問</span></div>
+      <div class="detail">日時：2026年10月2日(金)　役員会 16:00〜 / 公式訪問 18:00〜 / 懇親会 19:00〜</div>
+      <div class="detail">会場：アートホテル旭川 / 出席範囲：全会員</div>
+    </div>
+
+    <div class="sub">
+      <div class="head"><span class="num">(2)</span><span>ガバナー諮問委員会 開催予定</span></div>
+      <div class="detail">第1回：2026年8月17日(月) 17:00〜18:30 (大雪クリスタルホール)</div>
+      <div class="detail">第2回：2026年11月16日(月) 17:30〜18:30 (大雪クリスタルホール)</div>
+      <div class="detail">第3回：書面（メール）にて実施</div>
+      <div class="detail">第4回：2027年4月26日(月) 17:00〜20:00 (アートホテル旭川)</div>
+      <div class="detail">※出席範囲：会長・第一副会長・幹事</div>
+    </div>
+
+    <div class="sub">
+      <div class="head"><span class="num">(3)</span><span>ゾーンチェアパーソンクラブ 訪問（愛別ライオンズクラブ L.鉢呂悟）</span></div>
+      <div class="detail">2026年8月4日(火) 第一例会</div>
+    </div>
+
+    <div class="sub">
+      <div class="head"><span class="num">(4)</span><span>ミッション1.5ご協力のお願い</span></div>
+    </div>
+
+    <div class="sub">
+      <div class="head"><span class="num">(5)</span><span>国際会長メッセージについて（国際会長 L.マークS.ライオン）</span></div>
+      <div class="detail">テーマ：We Serve（われわれは奉仕する）</div>
+      <div class="detail">メッセージ：ROOTED IN SERVICE（奉仕に根ざして）</div>
+    </div>
+
+    <div class="sub">
+      <div class="head"><span class="num">(6)</span><span>キャビネット組織表、行事予定表について</span></div>
+    </div>
+
+    <div class="section">
+      <div class="plain">委員会報告</div>
+      <div class="marus">
+        <div class="maru-row"><span class="it">①年間スケジュールについて</span><span class="who"><span class="role">財務運営委員長</span>　<span class="l">L.</span>伊藤　義夫</span></div>
+        <div class="maru-row"><span class="it">②その他</span><span class="who"></span></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="plain">審議事項</div>
+      <div class="marus">
+        <div class="maru-row"><span class="it">①チャーターナイト記念ライガー決算報告</span><span class="who"><span class="role">前親睦委員長</span>　<span class="l">L.</span>上田　桂輔</span></div>
+        <div class="maru-row"><span class="it">②前年度収支決算報告・監査報告</span><span class="who"><span class="role">前会計</span>　<span class="l">L.</span>髙橋　聡</span></div>
+        <div class="maru-row"><span class="it">③承認</span><span class="who"><span class="role">前会長</span>　<span class="l">L.</span>大谷　隆士</span></div>
+        <div class="maru-row"><span class="it">④剰余金の処分案について</span><span class="who"><span class="role">財務運営委員長</span>　<span class="l">L.</span>伊藤　義夫</span></div>
+        <div class="maru-row"><span class="it">⑤今期予算案の提出</span><span class="who"><span class="role">会計</span>　<span class="l">L.</span>佐藤　孝広</span></div>
+        <div class="maru-row"><span class="it">⑥第1507回例会（納涼ライガー）予算案</span><span class="who"><span class="role">親睦委員長</span>　<span class="l">L.</span>田中　秀道</span></div>
+        <div class="maru-row"><span class="it">⑦ライオンズの誓い・ライオンズローアについて</span><span class="who"><span class="role">ライオンズテーマー</span>　<span class="l">L.</span>石川恵二</span></div>
+      </div>
+    </div>
+
+    <div class="row"><span class="it">出席率の報告</span><span class="who"><span class="role">出席委員長</span>　<span class="l">L.</span>重綱　博美</span></div>
+
+    <div class="row"><span class="it">ドネーション・ファインの発表</span><span class="who"><span class="role">テールツイスター</span>　<span class="l">L.</span>星　忠克</span></div>
+
+    <div class="plain">また会う日まで</div>
+
+    <div class="row"><span class="it">ライオンズローア</span><span class="who"><span class="l">L.</span>宮本　遵嗣</span></div>
+
+    <div class="row"><span class="it">閉会のことば並びに閉会のゴング</span><span class="who"><span class="role">会長</span>　<span class="l">L.</span>中島　張</span></div>
+
   </div>
-<script>
-  var PAYLOAD = "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";
-  function b64(s){var b=atob(s),a=new Uint8Array(b.length);for(var i=0;i<b.length;i++)a[i]=b.charCodeAt(i);return a;}
-  var raw = b64(PAYLOAD);
-  var salt = raw.slice(0,16), iv = raw.slice(16,28), body = raw.slice(28);
-  var form = document.getElementById('form'), err = document.getElementById('err');
-  form.addEventListener('submit', async function(e){
-    e.preventDefault();
-    err.textContent='';
-    var pw = document.getElementById('pw').value;
-    try{
-      var km = await crypto.subtle.importKey('raw', new TextEncoder().encode(pw), 'PBKDF2', false, ['deriveKey']);
-      var key = await crypto.subtle.deriveKey(
-        {name:'PBKDF2', salt:salt, iterations:200000, hash:'SHA-256'},
-        km, {name:'AES-GCM', length:256}, false, ['decrypt']);
-      var buf = await crypto.subtle.decrypt({name:'AES-GCM', iv:iv}, key, body);
-      var html = new TextDecoder().decode(buf);
-      // Replace the whole page with the decrypted document so its inline
-      // scripts (table rendering, tab switching, print) run natively.
-      document.open();
-      document.write(html);
-      document.close();
-    }catch(ex){
-      err.textContent = '合言葉が違います。もう一度お試しください。';
-    }
-  });
-</script>
+</div>
+
 </body>
 </html>
