@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>例会次第 変換ツール ｜ 旭川平和ライオンズクラブ</title>
+<style>
+  :root{--purple:#5c1a72;--purple-dark:#42115a;--gold:#e6b400;--ink:#241a2b;--muted:#6b6472;--line:#ece3f2;--bg:#f6f2f9;--card:#fff;}
+  *{box-sizing:border-box;}
+  html,body{margin:0;}
+  body{font-family:"Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic","Meiryo",sans-serif;background:var(--bg);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased;}
+  .backbtn{position:fixed;top:14px;left:14px;z-index:50;display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.95);color:#5c1a72;border:1px solid #d8cfe0;border-radius:999px;padding:8px 15px;font-size:13px;font-weight:700;text-decoration:none;box-shadow:0 2px 10px rgba(0,0,0,.12);}
+  .backbtn:hover{background:#f3ecf7;border-color:#5c1a72;}
+  header{background:linear-gradient(135deg,var(--purple),var(--purple-dark));color:#fff;padding:30px 0 24px;}
+  .wrap{max-width:860px;margin:0 auto;padding:0 18px;}
+  .brand{display:flex;align-items:center;gap:13px;}
+  .crest{width:44px;height:44px;border-radius:50%;background:var(--gold);color:var(--purple-dark);font-weight:800;font-size:19px;line-height:44px;text-align:center;flex:0 0 auto;}
+  h1{margin:0;font-size:20px;font-weight:800;}
+  .brand .sub{font-size:12.5px;color:#efe4f5;margin-top:2px;}
+  main{padding:24px 0 70px;}
+  .step{background:var(--card);border:1px solid var(--line);border-radius:15px;padding:20px 22px;margin-bottom:16px;}
+  .step h2{margin:0 0 12px;font-size:15px;color:var(--purple-dark);display:flex;align-items:center;gap:9px;}
+  .step h2 .n{width:24px;height:24px;border-radius:50%;background:var(--purple);color:#fff;font-size:13px;display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;}
+  .drop{border:2px dashed #c9b8d6;border-radius:13px;padding:26px;text-align:center;color:var(--muted);cursor:pointer;transition:.15s;background:#fbf8fd;}
+  .drop:hover,.drop.over{border-color:var(--purple);background:#f3ecf7;color:var(--purple-dark);}
+  .drop b{color:var(--purple);}
+  input[type=file]{display:none;}
+  textarea{width:100%;min-height:280px;border:1px solid var(--line);border-radius:11px;padding:14px;font-size:13.5px;font-family:"SFMono-Regular",Consolas,"Hiragino Kaku Gothic ProN",monospace;line-height:1.7;resize:vertical;}
+  textarea:focus{outline:none;border-color:var(--purple);box-shadow:0 0 0 3px #f3ecf7;}
+  .btn{display:inline-flex;align-items:center;gap:7px;background:var(--purple);color:#fff;border:0;border-radius:11px;padding:12px 22px;font-size:15px;font-weight:700;font-family:inherit;cursor:pointer;}
+  .btn:hover{background:var(--purple-dark);}
+  .btn.ghost{background:#fff;color:var(--purple);border:1px solid #d8cfe0;}
+  .btn.ghost:hover{background:#f3ecf7;}
+  .btn:disabled{opacity:.5;cursor:not-allowed;}
+  .row2{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;}
+  .hint{font-size:12.5px;color:var(--muted);margin:10px 0 0;line-height:1.7;}
+  .warn{background:#fff8e1;border:1px solid #f0e0a8;border-radius:11px;padding:12px 16px;font-size:12.5px;color:#7a5f00;margin-top:12px;line-height:1.7;}
+  .warn b{color:var(--purple-dark);}
+  .status{font-size:13px;font-weight:700;margin-top:10px;min-height:18px;}
+  .status.err{color:#c0392b;}
+  .status.ok{color:#2f8f4e;}
+  iframe.preview{width:100%;height:640px;border:1px solid var(--line);border-radius:11px;background:#e9e9ee;}
+  .fmt{font-size:12px;color:var(--muted);background:#faf7fc;border:1px solid var(--line);border-radius:9px;padding:10px 13px;margin-top:10px;line-height:1.75;}
+  code{background:#efe7f4;border-radius:4px;padding:1px 5px;font-size:12px;}
+</style>
+</head>
+<body>
+<a href="./index.html" class="backbtn">← 資料室</a>
+
+<header><div class="wrap"><div class="brand">
+  <span class="crest">LC</span>
+  <div><h1>例会次第 変換ツール</h1><div class="sub">PDFから同じ体裁のHTMLを作成</div></div>
+</div></div></header>
+
+<main><div class="wrap">
+
+  <div class="step">
+    <h2><span class="n">1</span>PDFを選ぶ</h2>
+    <label class="drop" id="drop">
+      <input type="file" id="file" accept="application/pdf">
+      ここに例会次第のPDFを<b>ドラッグ</b>、またはクリックして選択
+    </label>
+    <div class="status" id="st1"></div>
+  </div>
+
+  <div class="step">
+    <h2><span class="n">2</span>読み取り内容を確認・手直し</h2>
+    <p class="hint">PDFから自動で読み取った内容です。氏名・役職などに誤りがあればここで直せます（元PDFに誤記がある場合もそのまま出ます）。担当者は項目の右に <code> | </code> で区切って書きます。</p>
+    <textarea id="txt" placeholder="ここに読み取り結果が入ります"></textarea>
+    <div class="fmt">
+      書き方：<code>#回: 1508</code> のような見出し行のあと、本文を1行ずつ。<br>
+      ・担当者つき項目 → <code>1．出席率の報告 | 出席委員長 L.重綱　博美</code><br>
+      ・担当者なし項目 → <code>1．また会う日まで</code><br>
+      ・小項目 → 行頭に <code>①</code> / ・つき詳細は <code>・</code> や <code>-</code> で始める
+    </div>
+    <div class="row2">
+      <button class="btn" id="conv">プレビューを作る →</button>
+    </div>
+  </div>
+
+  <div class="step">
+    <h2><span class="n">3</span>プレビュー & 保存</h2>
+    <div class="status" id="st3"></div>
+    <iframe class="preview" id="pv" title="プレビュー"></iframe>
+    <div class="row2">
+      <button class="btn" id="dl" disabled>💾 HTMLをダウンロード</button>
+      <button class="btn ghost" id="prt" disabled>🖨 印刷 / PDF保存</button>
+    </div>
+    <div class="warn">
+      <b>資料室に載せるには：</b> ダウンロードしたHTML（または元のPDF）をチャットに送っていただければ、内容を確認のうえ資料室トップの一覧に追加します。<br>
+      ※このツールはブラウザ内だけで動作し、データはどこにも送信されません。
+    </div>
+  </div>
+
+</div></main>
+
+<script>
+let _pdfjs=null;
+async function loadPdfjs(){
+  if(_pdfjs) return _pdfjs;
+  const m=await import('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.379/pdf.min.mjs');
+  m.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.379/pdf.worker.min.mjs';
+  _pdfjs=m; return m;
+}
+
+const ROLES=['第一副会長','第二副会長','副会長','会長','幹事','会計','財務運営委員長','出席委員長','親睦委員長','ライオンズテーマー','テールツイスター','副委員長','委員長','前会長','前会計','前親睦委員長','理事','司会','委員'];
+const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+async function extractLines(file){
+  const pdfjs = await loadPdfjs();
+  const data = new Uint8Array(await file.arrayBuffer());
+  const doc = await pdfjs.getDocument({data}).promise;
+  let all=[];
+  for(let pg=1; pg<=doc.numPages; pg++){
+    const page = await doc.getPage(pg);
+    const tc = await page.getTextContent();
+    const lines={};
+    for(const it of tc.items){
+      const x=it.transform[4], y=Math.round(it.transform[5]);
+      (lines[y]=lines[y]||[]).push({x,w:it.width,s:it.str});
+    }
+    const ys=Object.keys(lines).map(Number).sort((a,b)=>b-a);
+    for(const y of ys){
+      const items=lines[y].sort((a,b)=>a.x-b.x);
+      let t='',prev=null;
+      for(const o of items){ if(prev!==null && o.x-prev>3) t+=' '; t+=o.s; prev=o.x+o.w; }
+      t=t.replace(/ {2,}/g,' ').trim();
+      if(t) all.push(t);
+    }
+  }
+  return all;
+}
+
+function isLat(t,i){ return /[LＬ]/.test(t[i]||'') && /[.．]/.test(t[i+1]||''); }
+function splitWho(line){
+  const t=line; let depth=0, firstL=-1;
+  for(let i=0;i<t.length;i++){
+    const c=t[i];
+    if(c==='（'||c==='(')depth++;
+    else if(c==='）'||c===')')depth=Math.max(0,depth-1);
+    else if(depth===0 && isLat(t,i)){firstL=i;break;}
+  }
+  if(firstL<0) return {item:t.trim(), who:''};
+  let start=firstL;
+  const left=t.slice(0,firstL).replace(/[ 　]+$/,'');
+  const m=left.match(/([^ 　]+)$/);
+  if(m){ const tok=m[1];
+    if(ROLES.indexOf(tok)>=0 || /^[0-9０-９]+年$/.test(tok) || tok==='次期') start=left.length-tok.length;
+  }
+  let item=t.slice(0,start).replace(/[ 　]+$/,'').trim();
+  let who=t.slice(start).trim().replace(/[Ｌ][.．]/g,'L.').replace(/L．/g,'L.');
+  return {item, who};
+}
+
+function toFull(n){return String(n);}
+function autoText(lines){
+  let club='旭川平和ライオンズクラブ', no='', sub='', date='', place='', chair='';
+  const body=[];
+  let started=false;
+  for(let i=0;i<lines.length;i++){
+    const l=lines[i];
+    if(!no){ const m=l.match(/第\s*([0-9０-９]+)\s*回/); if(m){ no=m[1].replace(/[０-９]/g,d=>'0123456789'['０１２３４５６７８９'.indexOf(d)]); continue; } }
+    if(/ライオンズクラブ$/.test(l) && !started && l.indexOf('例会')<0){ club=l; continue; }
+    if(!chair && /司\s*会/.test(l)){ chair=l.replace(/^司\s*会[：: ]*/,'').replace(/[Ｌ][.．]/g,'L.').replace(/L．/g,'L.').trim(); continue; }
+    if(!date && /(令和|平成|20\d\d年).*月.*日/.test(l)){
+      if(l.indexOf('/')>=0){ const p=l.split('/'); date=p[0].replace(/^\s*日時[：:]\s*/,'').trim(); place=(p[1]||'').replace(/^\s*場所[：:]\s*/,'').trim(); }
+      else date=l.replace(/^\s*日時[：:]\s*/,'').trim();
+      continue;
+    }
+    if(!place && date && /(例会場|場所|ホール|ホテル|会館|市民)/.test(l) && !/令和|平成/.test(l)){ place=l.replace(/^\s*(例会場|場所)[：:]?\s*/,'').trim(); continue; }
+    if(no && (l===club || l.indexOf('例会次第')>=0)) continue;
+    if(/^（.*）$/.test(l) && no && !started && !sub){ sub=l.replace(/^（|）$/g,'').trim(); continue; }
+    // body
+    if(no){ started=true;
+      const {item,who}=splitWho(l);
+      body.push(who ? (item+' | '+who) : item);
+    }
+  }
+  let out='#クラブ: '+club+'\n#回: '+no+'\n';
+  if(sub) out+='#サブ: '+sub+'\n';
+  out+='#日付: '+date+'\n';
+  if(place) out+='#場所: '+place+'\n';
+  out+='#司会: '+chair+'\n#--\n'+body.join('\n');
+  return out;
+}
+
+function parseText(text){
+  const model={club:'旭川平和ライオンズクラブ',no:'',sub:'',date:'',place:'',chair:'',body:[]};
+  for(const raw of text.split('\n')){
+    const line=raw.replace(/\s+$/,'');
+    if(!line.trim()) continue;
+    let m;
+    if((m=line.match(/^#クラブ[:：]\s*(.*)$/))){model.club=m[1];continue;}
+    if((m=line.match(/^#回[:：]\s*(.*)$/))){model.no=m[1].trim();continue;}
+    if((m=line.match(/^#サブ[:：]\s*(.*)$/))){model.sub=m[1];continue;}
+    if((m=line.match(/^#日付[:：]\s*(.*)$/))){model.date=m[1];continue;}
+    if((m=line.match(/^#場所[:：]\s*(.*)$/))){model.place=m[1];continue;}
+    if((m=line.match(/^#司会[:：]\s*(.*)$/))){model.chair=m[1];continue;}
+    if(/^#--/.test(line)) continue;
+    // body line
+    let item=line, who='';
+    const bar=line.indexOf(' | ');
+    if(bar>=0){ item=line.slice(0,bar).trim(); who=line.slice(bar+3).trim(); }
+    else { const sp=splitWho(line); item=sp.item; who=sp.who; }
+    let type='row';
+    const it2=item.replace(/^[ 　]+/,'');
+    if(/^[①-⑳]/.test(it2) || /^[（(][0-9０-９]+[）)]/.test(it2)) type='maru';
+    else if(/^[-‐–—*・]/.test(it2)) type='detail';
+    else if(!who) type='plain';
+    model.body.push({type,item:it2,who});
+  }
+  return model;
+}
+
+function whoHtml(who){
+  let h=esc(who);
+  for(const r of ROLES){ if(h.startsWith(r)){ h='<span class="role">'+r+'</span>'+h.slice(r.length); break; } }
+  h=h.replace(/L\./g,'<span class="l">L.</span>');
+  return h;
+}
+
+function buildHTML(model){
+  let rows='';
+  for(const b of model.body){
+    if(b.type==='detail'){
+      const mk=b.item.charAt(0); const rest=b.item.slice(1).replace(/^[ 　]+/,'');
+      rows+='<div class="dash"><span class="dl">'+esc(mk)+'</span><span>'+esc(rest)+'</span></div>\n';
+    } else if(b.type==='maru'){
+      rows+='<div class="maru-row"><span class="it">'+esc(b.item)+'</span><span class="who">'+(b.who?whoHtml(b.who):'')+'</span></div>\n';
+    } else if(b.type==='plain'){
+      rows+='<div class="plain">'+esc(b.item)+'</div>\n';
+    } else {
+      rows+='<div class="row"><span class="it">'+esc(b.item)+'</span><span class="who">'+whoHtml(b.who)+'</span></div>\n';
+    }
+  }
+  const sub = model.sub ? '<div class="subttl">（'+esc(model.sub)+'）</div>' : '';
+  const place = model.place ? '<div class="meta">'+esc(model.place)+'</div>' : '';
+  const chair = model.chair ? '<div class="chair">司会：'+whoHtml(model.chair)+'</div>' : '';
+  return `<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="robots" content="noindex, nofollow">
+<title>第${esc(model.no)}回例会次第 ｜ 旭川平和ライオンズクラブ</title>
+<style>
+:root{--ink:#111;--sub:#333;--paper:#fff;}*{box-sizing:border-box;}html,body{margin:0;padding:0;}
+body{background:#e9e9ee;font-family:"Hiragino Kaku Gothic ProN","Hiragino Sans","BIZ UDPGothic","Yu Gothic","Meiryo",sans-serif;color:var(--ink);line-height:1.75;padding:24px 12px;-webkit-font-smoothing:antialiased;}
+.backbtn{position:fixed;top:14px;left:14px;z-index:50;display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.95);color:#5c1a72;border:1px solid #d8cfe0;border-radius:999px;padding:8px 15px;font-size:13px;font-weight:700;text-decoration:none;box-shadow:0 2px 10px rgba(0,0,0,.12);font-family:inherit;}
+.backbtn:hover{background:#f3ecf7;border-color:#5c1a72;}
+.sheet{max-width:820px;margin:0 auto;background:var(--paper);padding:52px 60px 64px;box-shadow:0 2px 18px rgba(0,0,0,.14);}
+.club{text-align:center;font-size:16px;font-weight:600;letter-spacing:.04em;}
+.title{text-align:center;font-size:30px;font-weight:800;letter-spacing:.04em;margin:2px 0 4px;}
+.subttl{text-align:center;font-size:15px;font-weight:700;margin:0 0 8px;}
+.meta{text-align:center;font-size:14.5px;font-weight:600;}
+.chair{text-align:right;font-size:14.5px;margin-top:22px;}
+.b{font-weight:700;}.body{margin-top:28px;font-size:15px;}
+.row{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:1px 0;}
+.row .it{flex:1;}.row .who{flex:0 0 auto;text-align:right;white-space:nowrap;}
+.who .role{font-weight:700;}.who .l{font-weight:700;}
+.maru-row{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:1px 0;padding-left:1.6em;}
+.maru-row .it{flex:1;}.maru-row .who{flex:0 0 auto;text-align:right;white-space:nowrap;}
+.dash{padding-left:3.2em;color:var(--sub);font-size:14px;display:flex;gap:.7em;}.dash .dl{flex:0 0 auto;}
+.plain{padding:1px 0;}
+.toolbar{max-width:820px;margin:0 auto 12px;text-align:right;}
+.toolbar button{font-family:inherit;font-size:13px;font-weight:700;color:#5c1a72;background:#fff;border:1px solid #d8cfe0;border-radius:8px;padding:7px 14px;cursor:pointer;}
+.toolbar button:hover{background:#f3ecf7;}
+@media print{body{background:#fff;padding:0;}.sheet{box-shadow:none;max-width:none;padding:14mm 16mm;}.toolbar,.backbtn{display:none;}@page{size:A4;margin:12mm;}}
+@media (max-width:560px){.sheet{padding:30px 20px 40px;}.title{font-size:23px;}.row,.maru-row{flex-wrap:wrap;}.row .who,.maru-row .who{flex-basis:100%;text-align:right;}}
+</style></head>
+<body>
+<a href="./index.html" class="backbtn">← 資料室</a>
+<div class="toolbar"><button onclick="window.print()">🖨 印刷 / PDF保存</button></div>
+<div class="sheet">
+<div class="club">${esc(model.club)}</div>
+<div class="title">第<span class="no">${esc(model.no)}</span>回例会次第</div>
+${sub}
+<div class="meta">${esc(model.date)}</div>
+${place}
+${chair}
+<div class="body">
+${rows}</div>
+</div>
+</body></html>`;
+}
+
+let currentHTML='', currentNo='';
+const $=id=>document.getElementById(id);
+function status(el,msg,cls){el.className='status'+(cls?' '+cls:'');el.textContent=msg;}
+
+async function handleFile(file){
+  if(!file){return;}
+  if(file.type!=='application/pdf' && !/\.pdf$/i.test(file.name)){ status($('st1'),'PDFファイルを選んでください','err'); return; }
+  status($('st1'),'読み取り中…','');
+  try{
+    const lines=await extractLines(file);
+    $('txt').value=autoText(lines);
+    status($('st1'),'読み取り完了。内容を確認してください。','ok');
+    doConvert();
+    $('txt').scrollIntoView({behavior:'smooth',block:'center'});
+  }catch(e){ status($('st1'),'読み取りに失敗しました：'+e.message,'err'); }
+}
+function doConvert(){
+  try{
+    const model=parseText($('txt').value);
+    currentHTML=buildHTML(model); currentNo=model.no||'XXXX';
+    $('pv').srcdoc=currentHTML;
+    $('dl').disabled=false; $('prt').disabled=false;
+    status($('st3'),'プレビューを更新しました。','ok');
+  }catch(e){ status($('st3'),'変換エラー：'+e.message,'err'); }
+}
+
+$('file').addEventListener('change',e=>handleFile(e.target.files[0]));
+const drop=$('drop');
+['dragenter','dragover'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add('over');}));
+['dragleave','drop'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove('over');}));
+drop.addEventListener('drop',e=>{ if(e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]); });
+$('conv').addEventListener('click',doConvert);
+$('dl').addEventListener('click',()=>{
+  const blob=new Blob([currentHTML],{type:'text/html'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+  a.download='reikai-'+currentNo+'.html'; a.click();
+});
+$('prt').addEventListener('click',()=>{ $('pv').contentWindow.focus(); $('pv').contentWindow.print(); });
+</script>
+</body>
+</html>
