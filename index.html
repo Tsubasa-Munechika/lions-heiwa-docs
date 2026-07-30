@@ -4,44 +4,121 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>旭川平和ライオンズクラブ 資料</title>
+<title>旭川平和ライオンズクラブ 資料室</title>
 <style>
+  :root{
+    --purple:#5c1a72; --purple-dark:#42115a; --gold:#e6b400;
+    --ink:#241a2b; --muted:#6b6472; --line:#ece3f2; --bg:#f6f2f9; --card:#fff;
+  }
   *{box-sizing:border-box;}
-  html,body{margin:0;min-height:100%;}
+  html,body{margin:0;}
   body{font-family:"Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
-    background:linear-gradient(135deg,#5c1a72,#42115a);color:#241a2b;
-    display:flex;align-items:center;justify-content:center;padding:28px;min-height:100vh;}
-  .card{background:#fff;border-radius:20px;box-shadow:0 14px 44px rgba(0,0,0,.3);
-    padding:38px 34px 32px;max-width:440px;width:100%;text-align:center;}
-  .crest{width:56px;height:56px;border-radius:50%;background:#e6b400;color:#42115a;
-    font-weight:800;font-size:23px;line-height:56px;margin:0 auto 14px;}
-  h1{font-size:20px;margin:0 0 4px;color:#42115a;}
-  .sub{font-size:13px;color:#6b6472;margin:0 0 24px;}
-  a.item{display:block;text-decoration:none;color:#42115a;background:#faf7fc;
-    border:1px solid #ece3f2;border-radius:13px;padding:16px 18px;margin-bottom:12px;
-    font-weight:700;font-size:16px;text-align:left;transition:.15s;}
-  a.item:hover{border-color:#5c1a72;background:#f3ecf7;transform:translateY(-1px);}
-  a.item .d{display:block;font-size:12px;color:#8a7d95;font-weight:500;margin-top:3px;}
-  a.item .arw{float:right;color:#b49ac4;font-weight:800;}
-  .lock{display:inline-block;background:#fff8e1;border:1px solid #f0e0a8;color:#8a6d00;
-    border-radius:7px;padding:3px 10px;font-size:11.5px;font-weight:700;margin-bottom:20px;}
-  .foot{font-size:11px;color:#9a92a3;margin-top:14px;line-height:1.6;}
+    background:var(--bg);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased;}
+  header{background:linear-gradient(135deg,var(--purple),var(--purple-dark));color:#fff;
+    padding:30px 0 26px;position:relative;overflow:hidden;}
+  header::after{content:"";position:absolute;right:-50px;top:-50px;width:200px;height:200px;
+    background:radial-gradient(circle,rgba(230,180,0,.25),transparent 70%);}
+  .wrap{max-width:720px;margin:0 auto;padding:0 18px;}
+  .brand{display:flex;align-items:center;gap:13px;}
+  .crest{width:44px;height:44px;border-radius:50%;background:var(--gold);color:var(--purple-dark);
+    font-weight:800;font-size:19px;line-height:44px;text-align:center;flex:0 0 auto;
+    box-shadow:0 3px 10px rgba(0,0,0,.2);}
+  h1{margin:0;font-size:21px;font-weight:800;letter-spacing:.02em;}
+  .brand .sub{font-size:12.5px;color:#efe4f5;margin-top:2px;}
+
+  main{padding:26px 0 60px;}
+  .sechead{display:flex;align-items:center;gap:10px;margin:26px 0 12px;}
+  .sechead:first-child{margin-top:6px;}
+  .sechead .bar{width:5px;height:22px;background:var(--gold);border-radius:3px;}
+  .sechead h2{margin:0;font-size:16px;font-weight:800;color:var(--purple-dark);}
+  .sechead .count{font-size:12px;color:var(--muted);font-weight:700;background:#fff;
+    border:1px solid var(--line);border-radius:999px;padding:2px 10px;}
+
+  a.item{display:flex;align-items:center;gap:14px;text-decoration:none;color:var(--ink);
+    background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:15px 18px;margin-bottom:11px;transition:.15s;}
+  a.item:hover{border-color:var(--purple);box-shadow:0 5px 18px rgba(92,26,114,.09);transform:translateY(-1px);}
+  a.item .ic{width:40px;height:40px;border-radius:11px;flex:0 0 auto;display:flex;
+    align-items:center;justify-content:center;font-size:19px;background:#f3ecf7;}
+  a.item.roster .ic{background:#fff5d6;}
+  a.item .tx{flex:1;min-width:0;}
+  a.item .tt{font-weight:800;font-size:15.5px;}
+  a.item .ds{font-size:12.5px;color:var(--muted);margin-top:1px;}
+  a.item .tag{font-size:11px;font-weight:700;color:var(--purple);background:#f3ecf7;
+    border-radius:6px;padding:1px 7px;margin-left:6px;vertical-align:middle;white-space:nowrap;}
+  a.item .arw{color:#b49ac4;font-weight:800;font-size:18px;flex:0 0 auto;}
+  .latest{border-color:#f0d98a;background:linear-gradient(180deg,#fffdf5,#fff);}
+  .newtag{background:var(--gold);color:var(--purple-dark);border-radius:5px;padding:1px 7px;
+    font-size:10.5px;font-weight:800;margin-left:6px;}
+
+  .note{margin-top:26px;background:#fff;border:1px solid var(--line);border-radius:13px;
+    padding:15px 18px;font-size:12.5px;color:var(--muted);line-height:1.75;}
+  .note b{color:var(--purple-dark);}
+  footer{text-align:center;color:var(--muted);font-size:11.5px;margin-top:26px;}
 </style>
 </head>
 <body>
-  <div class="card">
-    <div class="crest">LC</div>
-    <h1>旭川平和ライオンズクラブ</h1>
-    <p class="sub">2026年度 クラブ資料</p>
-    <a class="item" href="./meibo.html">
-      <span class="arw">›</span>会員名簿・委員会名簿
-      <span class="d">2026年度（R8.7月末現在）</span>
-    </a>
-    <a class="item" href="./reikai-1506.html">
-      <span class="arw">›</span>第1506回 例会次第
-      <span class="d">令和8年7月21日（火）</span>
-    </a>
-    <p class="foot">旭川平和ライオンズクラブ 会員向け資料</p>
+<header>
+  <div class="wrap">
+    <div class="brand">
+      <span class="crest">LC</span>
+      <div>
+        <h1>旭川平和ライオンズクラブ</h1>
+        <div class="sub">資料室 ／ 2026年度</div>
+      </div>
+    </div>
   </div>
+</header>
+
+<main>
+  <div class="wrap">
+
+    <div class="sechead"><span class="bar"></span><h2>名簿</h2></div>
+    <a class="item roster" href="./meibo.html">
+      <span class="ic">📖</span>
+      <span class="tx">
+        <span class="tt">会員名簿・委員会名簿</span>
+        <span class="ds">2026年度（R8.7月末現在）／ 会員検索・委員会構成</span>
+      </span>
+      <span class="arw">›</span>
+    </a>
+
+    <div class="sechead"><span class="bar"></span><h2>例会次第</h2><span class="count" id="cnt"></span></div>
+    <div id="agendas"></div>
+
+    <div class="note">
+      <b>新しい例会次第を追加するには</b><br>
+      例会次第のPDFを送っていただければ、同じ体裁でHTML化し、この一覧に追加します。追加後は、この資料室ページから新しい順にいつでも閲覧できます。
+    </div>
+
+    <footer>旭川平和ライオンズクラブ 資料室</footer>
+  </div>
+</main>
+
+<script>
+  // 例会次第アーカイブ（新しい順に上へ。新規はこの配列に1行追加するだけ）
+  var agendas = [
+    {no:1507, date:"令和8年8月4日（火）",  place:"ときわ市民ホール",     note:"ZCクラブ訪問", file:"reikai-1507.html"},
+    {no:1506, date:"令和8年7月21日（火）", place:"ホテルクレッセント旭川", note:"",           file:"reikai-1506.html"}
+  ];
+  agendas.sort(function(a,b){return b.no-a.no;});
+  var box = document.getElementById('agendas');
+  agendas.forEach(function(a,i){
+    var tag = a.note ? '<span class="tag">'+a.note+'</span>' : '';
+    var newt = i===0 ? '<span class="newtag">最新</span>' : '';
+    var el = document.createElement('a');
+    el.className = 'item' + (i===0 ? ' latest' : '');
+    el.href = './' + a.file;
+    el.innerHTML =
+      '<span class="ic">📋</span>'+
+      '<span class="tx">'+
+        '<span class="tt">第'+a.no+'回 例会次第'+tag+newt+'</span>'+
+        '<span class="ds">'+a.date+'　'+a.place+'</span>'+
+      '</span>'+
+      '<span class="arw">›</span>';
+    box.appendChild(el);
+  });
+  document.getElementById('cnt').textContent = agendas.length + '件';
+</script>
 </body>
 </html>
