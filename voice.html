@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>要望・ご指摘の受付｜旭川平和ライオンズクラブ</title>
+<style>
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body { font-family:"Hiragino Kaku Gothic ProN","Meiryo",sans-serif; margin:0; background:#eef1f5; color:#1f2937; font-size:18px; line-height:1.6; }
+  .wrap { max-width:560px; margin:0 auto; padding:18px 16px 60px; }
+  .head { text-align:center; padding:8px 0 14px; }
+  .head .lion { font-size:34px; }
+  .head h1 { font-size:20px; color:#1A237E; margin:4px 0 2px; }
+  .head p { font-size:14px; color:#667085; margin:0; }
+  .card { background:#fff; border-radius:14px; padding:18px 16px; margin-bottom:16px; box-shadow:0 2px 8px rgba(0,0,0,.06); }
+  label { display:block; font-weight:bold; font-size:16px; margin-bottom:8px; color:#344054; }
+  input[type=text], select, textarea { width:100%; font-size:18px; padding:14px; border:2px solid #d0d5dd; border-radius:10px; font-family:inherit; background:#fff; }
+  textarea { min-height:90px; resize:vertical; }
+  .hint { font-size:13px; color:#98a2b3; margin-top:6px; }
+  .recbox { text-align:center; }
+  .recbtn { width:170px; height:170px; border-radius:50%; border:none; color:#fff; font-size:20px; font-weight:bold; background:#e53935; cursor:pointer; box-shadow:0 6px 16px rgba(229,57,53,.35); transition:transform .08s, background .2s; display:inline-flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; }
+  .recbtn:active { transform:scale(.97); }
+  .recbtn .ic { font-size:44px; line-height:1; }
+  .recbtn.recording { background:#b71c1c; animation:pulse 1.2s infinite; }
+  @keyframes pulse { 0%{box-shadow:0 0 0 0 rgba(183,28,28,.5);} 70%{box-shadow:0 0 0 18px rgba(183,28,28,0);} 100%{box-shadow:0 0 0 0 rgba(183,28,28,0);} }
+  .timer { font-size:26px; font-weight:bold; color:#b71c1c; margin-top:12px; height:32px; }
+  .statusline { font-size:15px; color:#475467; margin-top:6px; min-height:22px; }
+  audio { width:100%; margin-top:14px; }
+  .row2 { display:flex; gap:10px; margin-top:12px; }
+  .btn { flex:1; font-size:17px; padding:13px; border-radius:10px; border:2px solid #d0d5dd; background:#fff; color:#344054; font-weight:bold; cursor:pointer; }
+  .send { width:100%; font-size:20px; font-weight:bold; padding:16px; border:none; border-radius:12px; background:#1A237E; color:#fff; cursor:pointer; margin-top:4px; }
+  .send:disabled { background:#9aa1c4; cursor:default; }
+  .done { text-align:center; padding:40px 16px; }
+  .done .big { font-size:60px; }
+  .done h2 { color:#2e7d32; font-size:22px; margin:10px 0; }
+  .again { margin-top:20px; font-size:17px; padding:13px 22px; border-radius:10px; border:2px solid #1A237E; background:#fff; color:#1A237E; font-weight:bold; }
+  .err { background:#fdecea; color:#b71c1c; border:1px solid #f5c6cb; border-radius:10px; padding:10px 12px; font-size:14px; margin-top:10px; display:none; }
+  .hide { display:none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <div class="lion">🦁</div>
+    <h1>要望・ご指摘の受付</h1>
+    <p>旭川平和ライオンズクラブ 業務システム</p>
+  </div>
+
+  <div id="form">
+    <div class="card">
+      <label>お名前</label>
+      <input type="text" id="name" placeholder="例：大谷" autocomplete="off">
+      <div class="hint">お名前だけでOKです。</div>
+    </div>
+
+    <div class="card">
+      <label>種類</label>
+      <select id="kind"></select>
+    </div>
+
+    <div class="card recbox">
+      <label>音声で伝える（おすすめ）</label>
+      <div class="hint" style="margin-bottom:14px;">下の赤いボタンを押して話し、もう一度押すと止まります。<br>ざっくりで大丈夫です。</div>
+      <button id="recbtn" class="recbtn"><span class="ic">🎤</span><span id="reclabel">押して録音</span></button>
+      <div class="timer" id="timer"></div>
+      <div class="statusline" id="statusline"></div>
+      <audio id="player" controls class="hide"></audio>
+      <div class="row2 hide" id="redoRow"><button class="btn" id="redo">録り直す</button></div>
+      <div class="err" id="micerr"></div>
+    </div>
+
+    <div class="card">
+      <label>文字で書く（任意）</label>
+      <textarea id="text" placeholder="音声が難しいときは、ここに書いてもOKです。"></textarea>
+    </div>
+
+    <button class="send" id="send">送信する</button>
+    <div class="err" id="senderr"></div>
+  </div>
+
+  <div id="thanks" class="done hide">
+    <div class="big">✅</div>
+    <h2>送信しました！</h2>
+    <p>ありがとうございます。<br>担当者が確認して対応します。</p>
+    <button class="again" id="again">続けてもう1件送る</button>
+  </div>
+</div>
+
+<script>
+  /* ★ここに、GASウェブアプリの /exec URL を貼り付けてください ★ */
+  var GAS_URL = 'https://script.google.com/macros/s/AKfycbxKJQqh2s9Fmidm17zc20_1S6uDpg5daTWNqQO5x0B3yydkBZk4n6MSOsPKY_Gol8De/exec';
+
+  var KINDS = ['実装・修正の依頼','不具合の報告','要望・アイデア','その他'];
+  var kindSel = document.getElementById('kind');
+  KINDS.forEach(function(k){ var o=document.createElement('option'); o.value=k; o.textContent=k; kindSel.appendChild(o); });
+
+  var mediaRecorder=null, chunks=[], audioBlob=null, usedMime='', startedAt=0, timerId=null;
+
+  function pickMime(){ var prefs=['audio/mp4','audio/aac','audio/webm;codecs=opus','audio/webm','audio/ogg;codecs=opus']; if(!window.MediaRecorder) return ''; for(var i=0;i<prefs.length;i++){ try{ if(MediaRecorder.isTypeSupported(prefs[i])) return prefs[i]; }catch(e){} } return ''; }
+  function fmt(s){ var m=Math.floor(s/60), ss=s%60; return m+':'+(ss<10?'0':'')+ss; }
+  function showErr(id,msg){ var e=document.getElementById(id); e.textContent=msg; e.style.display='block'; }
+  function hideErr(id){ document.getElementById(id).style.display='none'; }
+
+  var recbtn=document.getElementById('recbtn');
+  recbtn.addEventListener('click',function(){ if(mediaRecorder&&mediaRecorder.state==='recording') stopRec(); else startRec(); });
+
+  function startRec(){
+    hideErr('micerr');
+    if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){ showErr('micerr','このブラウザは録音に対応していません。「文字で書く」欄をご利用ください。'); return; }
+    navigator.mediaDevices.getUserMedia({audio:true}).then(function(stream){
+      var mime=pickMime(); usedMime=mime; chunks=[];
+      try{ mediaRecorder = mime ? new MediaRecorder(stream,{mimeType:mime}) : new MediaRecorder(stream); }catch(e){ mediaRecorder=new MediaRecorder(stream); }
+      mediaRecorder.ondataavailable=function(ev){ if(ev.data&&ev.data.size>0) chunks.push(ev.data); };
+      mediaRecorder.onstop=function(){
+        stream.getTracks().forEach(function(t){t.stop();});
+        audioBlob=new Blob(chunks,{type:usedMime||'audio/webm'});
+        var pl=document.getElementById('player'); pl.src=URL.createObjectURL(audioBlob); pl.classList.remove('hide');
+        document.getElementById('redoRow').classList.remove('hide');
+        document.getElementById('statusline').textContent='録音できました。下で再生して確認できます。';
+      };
+      mediaRecorder.start(); startedAt=0; document.getElementById('timer').textContent='0:00';
+      timerId=setInterval(function(){ startedAt++; document.getElementById('timer').textContent=fmt(startedAt); if(startedAt>=180) stopRec(); },1000);
+      recbtn.classList.add('recording');
+      document.getElementById('reclabel').textContent='押して停止';
+      recbtn.querySelector('.ic').textContent='⏹';
+      document.getElementById('statusline').textContent='録音中… 話し終わったらもう一度ボタンを押してください。';
+      document.getElementById('player').classList.add('hide'); document.getElementById('redoRow').classList.add('hide');
+    }).catch(function(err){ showErr('micerr','マイクを使えませんでした。ブラウザの「マイクを許可」をご確認ください。または「文字で書く」欄をご利用ください。'); });
+  }
+
+  function stopRec(){
+    if(timerId){ clearInterval(timerId); timerId=null; }
+    if(mediaRecorder&&mediaRecorder.state==='recording') mediaRecorder.stop();
+    recbtn.classList.remove('recording');
+    document.getElementById('reclabel').textContent='押して録音';
+    recbtn.querySelector('.ic').textContent='🎤';
+  }
+
+  document.getElementById('redo').addEventListener('click',function(){
+    audioBlob=null;
+    document.getElementById('player').classList.add('hide');
+    document.getElementById('redoRow').classList.add('hide');
+    document.getElementById('timer').textContent=''; document.getElementById('statusline').textContent='';
+  });
+
+  document.getElementById('send').addEventListener('click',function(){
+    hideErr('senderr');
+    var name=document.getElementById('name').value.trim();
+    var text=document.getElementById('text').value.trim();
+    if(!audioBlob && !text){ showErr('senderr','音声を録音するか、文字で内容を書いてから送信してください。'); return; }
+    var btn=this; btn.disabled=true; btn.textContent='送信中…';
+
+    function post(audioB64){
+      fetch(GAS_URL, {
+        method:'POST', mode:'no-cors',
+        headers:{ 'Content-Type':'text/plain;charset=utf-8' },
+        body: JSON.stringify({ name:name, kind:kindSel.value, text:text, audioBase64:audioB64||'', mimeType:usedMime||(audioBlob?audioBlob.type:''), seconds:startedAt })
+      }).then(function(){
+        document.getElementById('form').classList.add('hide');
+        document.getElementById('thanks').classList.remove('hide'); window.scrollTo(0,0);
+      }).catch(function(){
+        btn.disabled=false; btn.textContent='送信する';
+        showErr('senderr','送信に失敗しました。電波の良い場所で、もう一度お試しください。');
+      });
+    }
+
+    if(audioBlob){ var r=new FileReader(); r.onloadend=function(){ post(r.result); }; r.readAsDataURL(audioBlob); }
+    else { post(''); }
+  });
+
+  document.getElementById('again').addEventListener('click',function(){
+    document.getElementById('text').value=''; audioBlob=null;
+    document.getElementById('player').classList.add('hide'); document.getElementById('redoRow').classList.add('hide');
+    document.getElementById('timer').textContent=''; document.getElementById('statusline').textContent='';
+    var s=document.getElementById('send'); s.disabled=false; s.textContent='送信する';
+    document.getElementById('thanks').classList.add('hide'); document.getElementById('form').classList.remove('hide'); window.scrollTo(0,0);
+  });
+</script>
+</body>
+</html>
